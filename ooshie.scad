@@ -1,28 +1,30 @@
-$fn=24;
+$fn=48;
 
-n = 5;
-step = 25;
 
-z = 0;
 
-//cube([step*n, step, 2]);
-union() {
-for(x = [0 : step : step*n-1])
-    translate([x+step/2, step/2, 1.999]) cylinder(d=7, h=10);
+module ooshi() {
+    difference() {
+        union() {
+            difference() {
+                translate([2, 2, 0]) minkowski() {
+                    cube([25-(2*2), 25-(2*2), 1]);
+                    sphere(r=2);
+                }
+                translate([0,0,-4]) cube([25, 25, 4]);
+            }
+            
+            translate([25/2, 25/2, 10.999]) cylinder(r1=7/2, r2=5/2, h=1);
+            translate([25/2, 25/2, 1.999]) cylinder(d=7, h=10-1);
+            
+            //
+            translate([-3, 25/2, 0]) cylinder(r=5, h=2);
+            translate([25/2, 25+3, 0]) cylinder(r=5, h=2);
+        }
 
-minkowski() {
-difference()
-{
-    cube([step*n, step, 2]);
-
-    d = (step*n) *1.5;
-    translate([step*n/2, (d/2) + 5, -0.5]) cylinder($fn=6, h=3, d=d);
-    translate([step*n/2, (-d/2) + step - 5, -0.5]) cylinder($fn=6, h=3, d=d);
+        translate([25-3, 25/2, 0]) cylinder(r=5.25, h=1.5);
+        translate([25/2, 3, 0]) cylinder(r=5.25, h=1.5);
+    }
 }
 
-cylinder(r=3, h=2);
-}
-}
-//translate([step/2,step/4,1.999]) cube([step*(n-1), step/2, 2]);
-//for(x = [0 : step : step*n-1])
-//    translate([x+step/2, step/2, 1.999]) cylinder(d=20, h=2);
+ooshi();
+translate([25,0,0]) ooshi();
